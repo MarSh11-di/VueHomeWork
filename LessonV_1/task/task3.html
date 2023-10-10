@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 3</title>
+  </head>
+  <body>
+    <h2>
+      Задано початок та кінець діапазону. При натисканні на кнопку випадковим{}
+      чином генерувати значення з вказаного діапазону та відображати його.
+    </h2>
+    <div id="app">
+      <label>
+        Введiть мiнiмальне значення
+        <input type="number" v-model="minValue" />
+      </label>
+      <label>
+        Введiть максимальне значення
+        <input type="number" v-model="maxValue" />
+      </label>
+      <button @click="ranomNumber">Генерувати значення</button>
+      <p>Згенероване значення :{{number}}</p>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            maxValue: 0,
+            minValue: 0,
+            number: null,
+          };
+        },
+        methods: {
+          ranomNumber() {
+            this.number =
+              this.minValue +
+              Math.floor(Math.random() * (this.maxValue - this.minValue + 1));
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

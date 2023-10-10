@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 2</title>
+  </head>
+  <body>
+    <h2>
+      Вводиться номер місяця. Автоматично виводити рекомендований одяг (зима –
+      пальто, літо – шорти ….). Також автоматично виводити зображення з
+      відповідним зображенням лісу (зима – ліс зі снігом, осінь – жовтий ліс,
+      …).
+    </h2>
+    <div id="app">
+      <label>
+        Введiть номер мiсяця:
+        <input type="number" v-model="monthNumber" @change="mouns" />
+      </label>
+      <hr />
+      <div>
+        <p>Перiод року: {{show.season}}</p>
+        <p>Рекомендований одяг: {{show.cloth}}</p>
+        <img :src="show.foto" />
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            monthNumber: 0,
+            show: {},
+            seasons: [
+              {
+                season: "Зима",
+                cloth: "Шуба",
+                foto: "../img/winter.jpg",
+                month: [1, 2, 12],
+              },
+              {
+                season: "Весна",
+                cloth: "Куртка",
+                foto: "../img/spring.jpg",
+                month: [3, 4, 5],
+              },
+              {
+                season: "Лiто",
+                cloth: "Шорти",
+                foto: "../img/summer.jpg",
+                month: [6, 7, 8],
+              },
+              {
+                season: "Осiнь",
+                cloth: "Пальто",
+                foto: "../img/autumn.jpg",
+                month: [9, 10, 11],
+              },
+            ],
+          };
+        },
+        methods: {
+          mouns() {
+            this.seasons.forEach((ele) => {
+              if (ele.month.includes(this.monthNumber)) {
+                this.show = ele;
+              }
+            });
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

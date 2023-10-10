@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 5</title>
+  </head>
+  <body>
+    <h2>
+      Додаток містить масив об’єктів (логін, пароль) -- інсуючі логіни і паролі.
+      Користувач вводить логін і пароль, а програма повідомляє чи може
+      користувач бути авторизованим (чи є він одним з масиву).
+    </h2>
+    <div id="app">
+      <label
+        >Ведiть логiн
+        <div><input type="text" v-model="loginIn" /></div>
+      </label>
+      <label
+        >Ведiть пароль
+        <div><input type="password" v-model="passwordIn" /></div>
+      </label>
+      <button @click="chekData">Вхiд</button>
+      <div :style="{color:colore}">{{ message}}</div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            userData: [
+              { login: "Natali", password: "123" },
+              { login: "Olga", password: "well" },
+              { login: "Max", password: "excellent" },
+            ],
+            loginIn: "",
+            passwordIn: "",
+            message: "",
+            colore: "",
+          };
+        },
+        methods: {
+          chekData() {
+            let resalt = this.userData.some(
+              (elem) =>
+                elem.login === this.loginIn && elem.password === this.passwordIn
+            );
+            if (resalt) {
+              (this.message = "Вхiд дозволено"), (this.colore = "green");
+            } else {
+              (this.message = "Вхiд заборонено"), (this.colore = "red");
+            }
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 4</title>
+  </head>
+  <body>
+    <h2>
+      “Рахунок у банку” Вимоги: 1) Спочатку сума дорівнює 0грн. Змінити суму у
+      гривнях можна або зарахуванням на рахунок, або зняттям. 2) Сума
+      автоматично переводиться у долари та євро (фіксований курс задається у
+      data). 3) можливість зарахувати суму (контролювати, щоб не була від’ємною)
+      4) можливість зняти (щоб не можна зняти більше ніж є на рахунку) 5) при
+      виконанні зняття і зарахування коштів вираховувати 3% від суми
+      (відображати кількість відсотків автоматично) При зміні суми : - якщо було
+      зняття, то суму відоражати червоним - якщо було зарахування, то суму
+      відображати зеленим Якщо сума валюти менша за 100 то відображати червоним
+      кольором, інакше - зеленим
+    </h2>
+    <div id="app">
+      <div>
+        <div :style="{color:colorR}">
+          Сумма на рахунку:{{amountAccount.toFixed(2)}}
+        </div>
+      </div>
+      <div>
+        <label
+          >Зарахувати на рахунок:
+          <input type="number" v-model="putMoney" />
+          <button @click="funPutMoney">Зарахувати</button>
+        </label>
+      </div>
+      <div>
+        <label
+          >Зняти з рахунку:
+          <input type="number" v-model="takeoffMoney" />
+          <button @click="funTakeoffMoney">Зняти</button>
+        </label>
+      </div>
+      <div>Вiдсотки за обслуговування: {{interestPersent }}</div>
+      <hr />
+      <div>Сумма у долларах:{{getDollar.toFixed(2)}}</div>
+      <div>Сумма у евро:{{getEuro.toFixed(2)}}</div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            amountAccount: 0,
+            putMoney: null,
+            takeoffMoney: null,
+            exchangeDollar: 38,
+            exchangeEuro: 41,
+            persent: 3,
+            interestPersent: 0,
+            colorR: "red",
+          };
+        },
+        methods: {
+          funPutMoney() {
+            if (this.putMoney > 0) {
+              this.interestPersent = (this.putMoney * this.persent) / 100;
+              this.amountAccount += this.putMoney - this.interestPersent;
+              if (this.amountAccount <= 100) {
+                this.colorR = "red";
+              } else this.colorR = "green";
+            }
+          },
+          funTakeoffMoney() {
+            if (this.takeoffMoney <= this.amountAccount) {
+              this.interestPersent = (this.takeoffMoney * this.persent) / 100;
+              this.amountAccount -= this.takeoffMoney + this.interestPersent;
+              this.colorR = "red";
+            } else this.amountAccount = this.amountAccount;
+          },
+        },
+        computed: {
+          getDollar() {
+            return this.amountAccount / this.exchangeDollar;
+          },
+          getEuro() {
+            return this.amountAccount / this.exchangeEuro;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
