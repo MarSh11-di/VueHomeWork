@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 3</title>
+  </head>
+  <body>
+    <h2>
+      Елемент тренажера англійської. Виводимо зображення елемента і слово.
+      Користувач вводить відповідь. Якщо вірно – відтворюємо фразу «Добре.
+      Молодець!» (і додаємо зелену рамку до елемента), якщо ні - то відтворюємо
+      фразу «Невірно, спробуйте ще раз» (і додаємо червону рамку).
+    </h2>
+    <style>
+      .cont {
+        max-width: 300px;
+        max-height: 300px;
+        text-align: center;
+      }
+      .green-frame {
+        border: 2px solid green;
+      }
+      .red-frame {
+        border: 2px solid red;
+      }
+      .foto {
+        max-width: 150px;
+        max-height: 150px;
+      }
+    </style>
+    <div id="app">
+      <div :class="frame" class="cont">
+        <div v-for="item in items" :key="item.id">
+          <img :src="item.foto" class="foto" />
+          <h2>{{item.nameItem}}</h2>
+        </div>
+        <label
+          >Ваш переклад
+          <input type="text" v-model="userTranslation" />
+        </label>
+        <div>
+          <button @click="onClickCheck">Перевiрити</button>
+          <div>{{message}}</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            items: [
+              {
+                id: 1,
+                foto: "../img/table.jpg",
+                nameItem: "table",
+                correctTranslation: "стiл",
+              },
+            ],
+            userTranslation: "",
+            message: "",
+            frame: "",
+          };
+        },
+        methods: {
+          onClickCheck() {
+            this.items.find((elem) => {
+              if (elem.correctTranslation === this.userTranslation) {
+                this.message = "Добре. Моллодець!";
+                this.frame = "green-frame";
+              } else {
+                this.message = "Невірно, спробуйте ще раз";
+                this.frame = "red-frame";
+              }
+            });
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

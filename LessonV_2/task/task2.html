@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 2</title>
+    <style>
+      .fon-business {
+        background: url("../img/business.jpg") center / cover no-repeat;
+        height: 400px;
+        color: black;
+      }
+      .fon-econom {
+        background: url("../img/oblako.jpeg") center / cover no-repeat;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>
+      З випадаючого списку вибираємо клас квитка у літаку. Якщо 1) бізнес -
+      виводимо елементи для вибору газети та коньяку (якщо вибрано коньяк, то
+      запропонувати закуску (так/ні)), на фоні зображення бізнес кают 2) економ
+      – виводимо елементи для вибору типу пива і чипсів, на фоні хмарки.
+    </h2>
+    <div id="app">
+      <form name="formClass">
+        Выберiть клас квитка:
+        <select v-model="listClassPlane">
+          <option value=""></option>
+          <option value="business">Бiзнес клас</option>
+          <option value="economy">Економ клас</option>
+        </select>
+      </form>
+      <div>
+        <template v-if="choiceBonus">
+          <form>
+            Виберiть додатковi бонуси:
+            <select v-model="listService">
+              <option value=""></option>
+              <option value="newspaper">Газета</option>
+              <option value="cognac">Коньяк</option>
+            </select>
+          </form>
+        </template>
+        <template v-else>
+          <form class="fon-econom">
+            Виберiть додатковi бонуси:
+            <select v-model="listServiceEconom">
+              <option value=""></option>
+              <option value="beer">Пиво</option>
+              <option value="chips">Чипси</option>
+            </select>
+          </form>
+        </template>
+      </div>
+      <template v-if="choiceSnack">
+        <form class="fon-business">
+          Чи бажаете закуску:
+          <select v-model="serviceSnack">
+            <option value=""></option>
+            <option value="yes">Так</option>
+            <option value="no">Нi</option>
+          </select>
+        </form>
+      </template>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            listClassPlane: "",
+            listService: "",
+            serviceSnack: "",
+            listServiceEconom: "",
+          };
+        },
+        computed: {
+          choiceBonus() {
+            return (
+              this.listClassPlane === "business" || this.listClassPlane === ""
+            );
+          },
+
+          choiceSnack() {
+            return this.listService === "cognac";
+          },
+        },
+        methods: {},
+      }).mount("#app");
+    </script>
+  </body>
+</html>

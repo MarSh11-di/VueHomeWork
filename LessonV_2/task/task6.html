@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 6</title>
+    <style>
+      table {
+        display: flex;
+      }
+
+      tbody {
+        flex: 0 1 33.3333%;
+      }
+
+      tr {
+        display: flex;
+        flex-direction: column;
+      }
+
+      th {
+        border: 1px solid black;
+        padding: 15px;
+      }
+
+      td {
+        border: 1px solid black;
+        padding: 15px;
+      }
+
+      td button {
+        float: right;
+      }
+      .top {
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>
+      На кухню поступають замовлення. Спочатку ми додаємо їх у список “Очікують
+      на виконання”, якщо повар береться робити — замовлення переходить у список
+      “Виконуються”, якщо замовлення виконано — переходить у список “Готові до
+      виносу”. Якщо натиснути на “Подано” - страва зникає з таблиці
+    </h2>
+    <div id="app">
+      <div>
+        <div class="top">
+          <label
+            >Нова замовлена страва
+            <input type="text" v-model="dishes" />
+          </label>
+          <button @click="addDihs">Додати</button>
+        </div>
+        <table class="conteiner">
+          <tbody>
+            <tr>
+              <th>Oчикують на виконання</th>
+            </tr>
+            <tr>
+              <td v-for="(dish,index) in  waitingList" :key="dish.id">
+                <span>{{dish.title}}</span>
+                <button @click="dishprepare(index)">Готувати</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th>Виконуються</th>
+            </tr>
+            <tr>
+              <td v-for="(dish, index) in processingList" :key="dish.id">
+                <span>{{dish.title}}</span>
+                <button @click="dishready(index)">Приготовлено</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th>Готовi до виносу</th>
+            </tr>
+            <tr>
+              <td v-for="dish in completedList" :key="dish.id">
+                <span>{{dish.title}}</span>
+                <button @click="dishServed(index)">Подано</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const app = createApp({
+        data() {
+          return {
+            dishes: null,
+            waitingList: [],
+            processingList: [],
+            completedList: [],
+          };
+        },
+        methods: {
+          randomId() {
+            return Date.now();
+          },
+          addDihs() {
+            this.waitingList.push({ title: this.dishes, id: this.randomId() });
+            this.dishes = null;
+            console.log(this.waitingList);
+          },
+          dishprepare(index) {
+            this.processingList.push(this.waitingList[index]);
+            this.waitingList.splice(index, 1);
+            console.log(this.processingList);
+          },
+          dishready(index) {
+            this.completedList.push(this.processingList[index]);
+            this.processingList.splice(index, 1);
+          },
+          dishServed(index) {
+            this.completedList.splice(index, 1);
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Задача 5</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+      .app {
+        width: 800px;
+        margin: 0px auto;
+      }
+      .icon-left {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+      .conteiner-first {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin-bottom: 10px;
+      }
+      .nome {
+        height: 4px;
+      }
+      .conteiner-shared {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        padding-left: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>
+      Самостійно сформуйте масив даних та виведіть фрагмент на зразок поданого
+      (дані не обов’язково повинні співпадати)
+    </h2>
+    <div id="app">
+      <div class="conteiner-shared">
+        <div v-for="website in searchList" :key="website.id">
+          <div class="conteiner-first">
+            <div
+              class="icon-left"
+              :style="{backgroundColor: website.icon}"
+            ></div>
+            <div>
+              <h4 class="nome">{{website.siteName}}</h4>
+              <a :href="website.link">{{website.link}}</a>
+            </div>
+          </div>
+          <div class="conteiner-second">
+            <h2>
+              <a target="_blank" href="website.link">{{website.title}}</a>
+            </h2>
+            <p class="text">{{website. description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const listOfSites = [
+        {
+          id: "1",
+          siteName: "On This Day",
+          link: "https://www.onthisday.com/events/date/2023",
+          title: "Historical Events in 2023",
+          description:
+            "Historical events from year 2023. Learn about 670 famous, scandalous and important events that happened in 2023 or search by date or keyword.",
+          icon: "white",
+        },
+        {
+          id: "2",
+          siteName: "Mashable",
+          link: "https://mashable.com/article/2023-news-good",
+          title: "23 good things already happening in 2023",
+          description:
+            "1 лют. 2023 р. — 1. There are more electric cars on the road than in 2022. · 2. Coal is dying out faster… · 3. ...while solar power is exploding. · 4. Energy is ...",
+          icon: "green",
+        },
+        {
+          id: "3",
+          siteName: "The Fact Site",
+          link: "https://www.thefactsite.com/year/2023/",
+          title: "2023: Facts & Events That Happened in This Year",
+          description:
+            "Events · Jan 1 · Croatia replaced its national currency, the kuna, with the euro. · Jan 10 · The UK's Prince Harry published Spare, his tell-all memoir on his ...",
+          icon: "blue",
+        },
+        {
+          id: "3",
+          siteName: "The Top Tens",
+          link: "https://www.thetoptens.com/history/biggest-events-2023/",
+          title: "Top 10 Biggest Events of 2023",
+          description:
+            "1 The Super Mario Bros. Movie Gets Released ; 2 Twitter Changes to X ; 3 The Ukraine War Drags On ; 4 Titan Submersible Incident ; 5 The Barbenheimer Phenomenon.",
+          icon: "brown",
+        },
+      ];
+      const app = createApp({
+        computed: {
+          searchList() {
+            return listOfSites;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

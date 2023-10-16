@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      .colorIvan {
+        color: blue;
+      }
+      .colorAll {
+        color: red;
+      }
+    </style>
+    <title>Задача 1</title>
+  </head>
+  <body>
+    <h2>
+      Вводимо логіна і пароль. Якщо логін вірний відображаємо смайл. Якщо ні,
+      то: 1) якщо логін = Іван – колір повідомлення про помилку синій 2) якщо
+      хтось інший, то колір повідомлення червоний
+    </h2>
+    <div id="app">
+      <div>
+        <label
+          >Введiть логiн:
+          <input type="text" v-model="loginIn" />
+        </label>
+      </div>
+      <div>
+        <label
+          >Введiть пароль:
+          <input type="password" v-model="passwordIn" />
+        </label>
+      </div>
+      <div><button @click="result">Go</button></div>
+
+      <div :class="getColor" v-if="!isCorrectLogin">{{message}}</div>
+      <img :src="foto" v-if="isCorrectLogin" />
+    </div>
+    <script>
+      const { createApp } = Vue;
+      let correctData = [
+        { login: "mariia", password: "123" },
+        { login: "olga", password: "456" },
+        { login: "stas", password: "795" },
+      ];
+      const app = createApp({
+        data() {
+          return {
+            loginIn: "",
+            passwordIn: "",
+            message: "",
+            isCorrectLogin: false,
+            foto: "../img/icons.png",
+          };
+        },
+        computed: {
+          getColor() {
+            let resaltColor;
+            if (this.loginIn.toLowerCase() === "iван") {
+              resaltColor = "colorIvan";
+            } else {
+              resaltColor = "colorAll";
+            }
+            return resaltColor;
+          },
+        },
+        methods: {
+          result() {
+            correctData.find((elem) => {
+              if (
+                elem.login === this.loginIn.toLowerCase() &&
+                elem.password === this.passwordIn
+              ) {
+                this.isCorrectLogin = true;
+              } else {
+                this.message = "Введено не вiрно";
+              }
+            });
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
